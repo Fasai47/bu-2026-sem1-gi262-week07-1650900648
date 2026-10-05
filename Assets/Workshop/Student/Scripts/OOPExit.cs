@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Solution
 {
-
     public class OOPExit : Identity
     {
         public Leaderboard leaderboard;
@@ -19,7 +18,16 @@ namespace Solution
                 leaderboard.gameObject.SetActive(true);
 
                 Debug.Log("You win");
-                //add code to manage leaderboard scores
+                
+                // 1. คำนวณคะแนนของผู้เล่น
+                int score = CalculateScore();
+
+                // 2. บันทึกคะแนนลงใน Leaderboard
+                string playerName = mapGenerator.player.name; // หรือ mapGenerator.player.playerName ตามที่มีในคลาส Player
+                leaderboard.RecordScore(new PlayerScore(playerName, score));
+
+                // 3. แสดงผลตาราง Leaderboard บน UI
+                leaderboard.ShowleaderBoard();
     
                 return true;
             }
@@ -28,7 +36,8 @@ namespace Solution
                 return false;
             }
         }
-        //Logic CalculateScore
+
+        // Logic CalculateScore
         int CalculateScore() {
             int score = (int)((mapGenerator.player.energy * 100) / Time.time);
             return score;
