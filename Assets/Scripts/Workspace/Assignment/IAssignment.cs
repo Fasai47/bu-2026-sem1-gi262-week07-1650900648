@@ -1,152 +1,184 @@
+using System;
+using System.Collections.Generic;
+
 namespace Assignment
 {
-    public interface IAssignment
+    public class StudentSolution : IAssignment
     {
-
         #region Lecture
 
-        int LCT01_SequentialSearch1DArray();
+        public int LCT01_SequentialSearch1DArray()
+        {
+            int[] array = new int[] { 34, 21, 56, 12, 78, 90, 11, 23 };
+            int target = 90;
+            int index = -1;
 
-        int[] LCT02_SequentialSearch2DArray();
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == target)
+                {
+                    index = i;
+                    break;
+                }
+            }
 
-        int LCT03_BinarySearch();
+            return index;
+        }
+
+        public int[] LCT02_SequentialSearch2DArray()
+        {
+            int[,] array = new int[,]
+            {
+                { 34, 21, 56 },
+                { 12, 78, 90 },
+                { 11, 23, 45 }
+            };
+            int target = 23;
+            int row = -1;
+            int col = -1;
+
+            for (int r = 0; r < array.GetLength(0); r++)
+            {
+                for (int c = 0; c < array.GetLength(1); c++)
+                {
+                    if (array[r, c] == target)
+                    {
+                        row = r;
+                        col = c;
+                        break;
+                    }
+                }
+                if (row != -1) break;
+            }
+
+            return new[] { row, col };
+        }
+
+        public int LCT03_BinarySearch()
+        {
+            int[] array = new int[] { 11, 12, 21, 23, 34, 45, 56, 78, 90 };
+            int target = 23;
+            int index = -1;
+
+            int low = 0;
+            int high = array.Length - 1;
+
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2;
+
+                if (array[mid] == target)
+                {
+                    index = mid;
+                    break;
+                }
+                else if (array[mid] < target)
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return index;
+        }
 
         #endregion
 
         #region Assignment
 
-        /// <summary>
-        /// หาตำแหน่งแรกและตำแหน่งสุดท้ายในลำดับ
-        /// ให้เขียนโปรแกรมหาตำแหน่งแรกและตำแหน่งสุดท้ายของค่าที่กำหนดในอาร์เรย์
-        /// 1. เขียนฟังก์ชันที่รับอาร์เรย์และค่าที่ต้องการค้นหา
-        /// 2. ให้ฟังก์ชันคืนตำแหน่งแรกและตำแหน่งสุดท้ายของข้อมูลนั้น ถ้าไม่พบให้คืนค่า -1
-        /// 
-        /// ตัวอย่าง array = [1, 2, 2, 2, 3] และ target = 2
-        /// Output:
-        /// 1
-        /// 3
-        /// คำอธิบาย : ค่าที่ 2 ปรากฏครั้งแรกใน index ที่ 1 และตำแหน่งสุดท้ายคือ index ที่ 3
-        /// 
-        /// ตัวอย่าง array = [1, 2, 3, 4, 5] และ target = 6
-        /// Output:
-        /// -1
-        /// คำอธิบาย : ค่าที่ 6 ไม่ปรากฏในอาร์เรย์
-        /// 
-        /// ตัวอย่าง array = [5, 5, 5, 5, 5] และ target = 5
-        /// Output:
-        /// 0
-        /// 4
-        /// คำอธิบาย : ค่าที่ 5 ปรากฏครั้งแรกใน index ที่ 0 และตำแหน่งสุดท้ายคือ index ที่ 4
-        /// </summary>
-        /// <param name="array"></param>
-        int[] AS01_FindFirstAndLastElementOfArray(int[] array, int target);
+        public int[] AS01_FindFirstAndLastElementOfArray(int[] array, int target)
+        {
+            if (array == null || array.Length == 0) return new int[] { -1 };
 
-        /// <summary>
-        /// หาค่าที่มากที่สุดที่น้อยกว่าค่าที่กำหนด
-        /// ให้เขียนโปรแกรมเพื่อหาค่าที่มากที่สุดที่น้อยกว่าค่าที่กำหนดในอาร์เรย์ที่เรียงลำดับ 
-        /// ถ้าไม่มีค่าที่น้อยกว่าค่าที่กำหนดให้แสดงค่า -1
-        /// เช่น ถ้ามี set ของตัวเลข 4, 2, 10, 9, 8, 11
-        /// และกำหนดตัวเลข target เท่ากับ 9 ค่าที่มากที่สุดที่น้อยกว่า 9 คำตอบคือ 8
-        /// 
-        /// ตัวอย่าง array = [4, 2, 10, 9, 8, 11] และ target = 9
-        /// Output:
-        /// 8
-        /// คำอธิบาย : ค่าที่ 8 เป็นค่าที่มากที่สุดที่น้อยกว่า 9
-        /// 
-        /// ตัวอย่าง array = [4, 2, 10, 9, 8, 11] และ target = 2
-        /// Output:
-        /// -1
-        /// คำอธิบาย : ไม่มีค่าที่น้อยกว่า 2
-        /// 
-        /// ตัวอย่าง array = [1, 2, 3, 5, 6] และ target = 5
-        /// Output:
-        /// 3
-        /// คำอธิบาย : ค่าที่ 3 เป็นค่าที่มากที่สุดที่น้อยกว่า 5
-        /// 
-        /// ตัวอย่าง array = [15, 5, 20, 40, 30] และ target = 5
-        /// Output:
-        /// -1
-        /// คำอธิบาย : ไม่มีค่าที่น้อยกว่า 5
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="target"></param>
-        int AS02_FindMaxLessThan(int[] array, int target);
+            int first = -1;
+            int last = -1;
 
-        /// <summary>
-        /// หาค่าที่อยู่ในช่วงที่กำหนด
-        /// ให้เขียนโปรแกรมเพื่อหาค่าที่อยู่ในช่วงที่กำหนดในอาร์เรย์ที่เรียงลำดับ
-        /// โดยให้เขียนฟังก์ชันที่รับอาร์เรย์และค่า 2 ค่า คือ min และ max
-        /// ฟังก์ชันจะคืนค่าจำนวนตัวเลขที่อยู่ในช่วงระหว่าง min และ max (รวม min และ max ด้วย)
-        /// ถ้าไม่มีค่าที่อยู่ในช่วงให้คืนค่าเป็นคคำว่า "Empty"
-        /// 
-        /// ตัวอย่าง array = [1, 3, 5, 7, 9] min = 4 max = 8
-        /// Output:
-        /// 5
-        /// 7
-        /// 
-        /// คำอธิบาย : ค่าที่อยู่ในช่วงระหว่าง 4 และ 8 คือ 5 และ 7
-        /// 
-        /// ตัวอย่าง array = [1, 2, 3, 4, 5] min = 6 max = 10
-        /// Output:
-        /// Empty
-        /// 
-        /// คำอธิบาย : ไม่มีค่าที่อยู่ในช่วงระหว่าง 6 และ 10 จึงแสดงคำว่า Empty
-        /// 
-        /// ตัวอย่าง array = [10, 20, 30, 40, 50] min = 10 max = 50
-        /// Output:
-        /// 10
-        /// 20
-        /// 30
-        /// 40
-        /// 50
-        /// คำอธิบาย : ค่าที่อยู่ในช่วงระหว่าง 10 และ 50 คือ 10, 20, 30, 40 และ 50
-        /// 
-        /// </summary>
-        /// <param name="array">Array ที่เรียงลำดับมาแล้ว</param>
-        /// <param name="min">ค่าต่ำสุด</param>
-        /// <param name="max">ค่าสูงสุด</param>
-        int[] AS03_FindRange(int[] array, int min, int max);
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == target)
+                {
+                    if (first == -1)
+                    {
+                        first = i;
+                    }
+                    last = i;
+                }
+            }
+
+            // ถ้าไม่พบ target คืนค่า new int[] { -1 } ตรงตามตัวอย่างใน XML Doc
+            if (first == -1) return new int[] { -1 };
+
+            return new int[] { first, last };
+        }
+
+        public int AS02_FindMaxLessThan(int[] array, int target)
+        {
+            if (array == null || array.Length == 0) return -1;
+
+            int maxVal = int.MinValue;
+            bool found = false;
+
+            foreach (int num in array)
+            {
+                if (num < target && num > maxVal)
+                {
+                    maxVal = num;
+                    found = true;
+                }
+            }
+
+            return found ? maxVal : -1;
+        }
+
+        public int[] AS03_FindRange(int[] array, int min, int max)
+        {
+            if (array == null || array.Length == 0) return new int[0];
+
+            List<int> result = new List<int>();
+
+            foreach (int num in array)
+            {
+                if (num >= min && num <= max)
+                {
+                    result.Add(num);
+                }
+            }
+
+            // คืนค่า Array ของตัวเลขที่อยู่ในช่วง หากไม่มีจะคืน Array ว่าง (ขนาด 0)
+            return result.ToArray();
+        }
 
         #endregion
 
         #region Extra
 
+        public int[] EX01_FindTargetEnemies(int[] enemyHPs, int mana)
+        {
+            if (enemyHPs == null || enemyHPs.Length == 0) return new int[0];
 
-        /// <summary>
-        /// ค้นหาเป้าหมายที่สามารถทำลายได้ในเกม RPG สมมติว่าผู้เล่นมีสกิลเวทย์มนตร์ที่สามารถทำลายศัตรูได้หลายตัวพร้อมกัน
-        /// โดยสกิลนี้จะมีค่าใช้มานา (Mana) ที่จำกัด และสามารถทำลายศัตรูได้ก็ต่อเมื่อพลังชีวิต (HP) ของศัตรูน้อยกว่าหรือเท่ากับค่ามานาที่ผู้เล่นมี
-        /// ผู้เล่นต้องการใช้สกิลนี้ให้เกิดประโยชน์สูงสุด โดยการทำ damage ศัตรูให้ตายได้จำนวนมากที่สุด
-        /// จงเขียนฟังก์ชันที่รับพลังชีวิตของศัตรูแต่ละตัวในรูปแบบอาร์เรย์ และค่ามานาที่ผู้เล่นมี โดยโปรแกรมจะต้องแสดง hp ของศัตรูที่สามารถทำลายได้มากที่สุด
-        /// 
-        /// สมมติว่าใน game มี enemy อยู่ 5 ตัว แต่ละตัวมี HP เหลืออยู่เท่ากับ [8, 3, 10, 2, 7] และ player มี mana เหลืออยู่ 15
-        /// 
-        /// + เช่นกรณีที่ enemyHP = [8, 3, 10, 2, 7] และ mana = 15 
-        /// Output:
-        /// 3
-        /// 2
-        /// 7
-        /// อธิบาย: สามารถเลือกโจมตี enemy ที่มี hp = [8, 7] หรือ[3, 2, 10] ก็ได้
-        /// 
-        /// + เช่นกรณีที่ enemyHP = [8, 3, 10, 2, 7] และ mana = 3
-        /// Output:
-        /// 3
-        /// อธิบาย: เลือกโจมตี enemy ที่มี hp = [3]
-        /// 
-        /// + เช่นกรณีที่ enemyHP = [8, 3, 10, 2, 7] และ mana = 6
-        /// Output:
-        /// 3
-        /// 2
-        /// อธิบาย: เลือกโจมตี enemy ที่มี hp = [3, 2]
-        /// 
-        /// HINT! หรืออีกในหนึ่งคือ ให้หากลุ่มของตัวเลขในอาร์เรย์ที่ผลรวมของตัวเลขในกลุ่มนั้นต้องน้อยกว่าหรือเท่ากับค่ามานาที่กำหนด
-        /// 
-        /// </summary>
-        /// <param name="enemyHPs"></param>
-        /// <param name="mana"></param>
-        int[] EX01_FindTargetEnemies(int[] enemyHPs, int mana);
+            // เรียงลำดับ HP จากน้อยไปมาก เพื่อเลือกทำลายศัตรูตัวที่ใช้ Mana น้อยที่สุดก่อน (Greedy Algorithm)
+            // ทำให้ได้จำนวนศัตรูที่ถูกกำจัดมากที่สุด
+            int[] sortedHPs = (int[])enemyHPs.Clone();
+            Array.Sort(sortedHPs);
+
+            List<int> targetEnemies = new List<int>();
+            int currentMana = mana;
+
+            foreach (int hp in sortedHPs)
+            {
+                if (hp <= currentMana)
+                {
+                    targetEnemies.Add(hp);
+                    currentMana -= hp;
+                }
+            }
+
+            return targetEnemies.ToArray();
+        }
 
         #endregion
-
     }
 }
